@@ -5,24 +5,23 @@ import CatalogCampersPage from "./pages/CatalogCampersPage/CatalogCampersPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FavoriteCampersPage from "./pages/FavoriteCampersPage/FavoriteCampersPage";
 import ModalCamper from "./components/ModalCamper/ModalCamper";
+import Navigation from "./components/Navigation/Navigation";
 
 function App() {
   
   return (
-    <div>
-      <nav>
-        <NavLink to='/'>Home</NavLink>
-        <NavLink to='/campers'>Catalog</NavLink>
-        <NavLink to='/favorite'>Favorite</NavLink>
-      </nav>
+    <>
+      <Navigation/>
+      <main>
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/campers" element={<CatalogCampersPage/>} />
         <Route path="/campers/:camperId/*" element={<ModalCamper/>} />
         <Route path="/favorite" element={<FavoriteCampersPage/>} />
         <Route path="*" element={<NotFoundPage/>} />
-      </Routes>    
-    </div>
+        </Routes>
+      </main>  
+    </>
   )
 }
 

@@ -1,0 +1,31 @@
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navLink {
+    display: flex;
+    padding: 5px 10px;
+    border: 2px solid #e44848;;
+    border-radius: 100px;
+    background-color: transparent;
+    color: black;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.active {
+    background-color: #e44848;;
+    color: white;
+}
+
+.header {
+    background: #f2f4f7;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
