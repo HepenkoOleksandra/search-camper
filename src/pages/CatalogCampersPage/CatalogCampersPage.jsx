@@ -6,46 +6,64 @@ import CardCamperCatalogList from "../../components/CardCamperCatalogList/CardCa
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import ModalCamper from '../../components/ModalCamper/ModalCamper';
+import ModalBackdrop from '../../components/ModalBackdrop/ModalBackdrop';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCampers } from '../../redux/operations';
 
 const CatalogCampersPage = () => {
-  const [campers, setCampers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(null);
+  const campers = useSelector((state) => state.camper.campers );
+  // console.log(campers);
+  
+  const filter = useSelector((state) => state.camper.filters);
+  const loading = useSelector((state) => state.camper.loading);
+  const error = useSelector((state) => state.camper.error);
   const [page, setPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [camperCard, setCamperCard] = useState(null);
+
+ const dispatch = useDispatch();
 
   useEffect(() => {
-
-    async function fetchCampers() {
-      setIsError(false);
-      setIsLoading(true);
-      
-      try {
-        const data = await apiGetAllCampers();
-        console.log(data);
-        setCampers((prevCampers) => [...prevCampers, ...data]);
-        //  setImages((prevImages) => [...prevImages, ...data.results]);
-        // setShowBtn(data.total_pages > page);
-      } catch (error) {
-        setIsError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }    
-      
-    fetchCampers();
-  }, []);
+    dispatch(fetchCampers());
+  }, [dispatch])
   
   const handleLoadMore = () => {
     setPage(prevPage => prevPage + 1);
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
+
+  const getCamperCard = (card) => {
+    setCamperCard(card);
+    console.log(card);
+    
   }
  
   return (
       <div className={css.container}>
       
-      {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
+      {loading && <Loader />}
+      {error && <ErrorMessage />}
       <SearchBox/>
-      {Array.isArray(campers) && <CardCamperCatalogList handleLoadMore={handleLoadMore} campers={campers}/>}
+      {Array.isArray(campers) && <CardCamperCatalogList
+        getCamperCard={getCamperCard}
+        openModal={openModal}
+        handleLoadMore={handleLoadMore}
+        campers={campers} />}
+      {camperCard !== null && (
+        <ModalBackdrop onClose={closeModal}>
+         <ModalCamper isOpen={isModalOpen}
+        onClose={closeModal}
+        camperCard={camperCard}/>
+        </ModalBackdrop>
+        )} 
       </div>
   )
 }

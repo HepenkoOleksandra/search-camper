@@ -2,7 +2,7 @@ import css from './CardCamperCatalogList.module.css'
 import svg from '../../../public/symbol-defs.svg';
 import { Link } from 'react-router-dom';
 
-const CardCamperCatalogList = ({handleLoadMore, campers}) => {
+const CardCamperCatalogList = ({getCamperCard, openModal, handleLoadMore, campers}) => {
   return (
       <>
           <ul className={css.cardCamperContainer}>{campers.map((camper) => {
@@ -83,7 +83,16 @@ const CardCamperCatalogList = ({handleLoadMore, campers}) => {
                         {/* import { MdAir } from "react-icons/md";   */}
                           {/* import { FaWind } from "react-icons/fa"; */}
                           {/* import { BsWind } from "react-icons/bs"; */}
-                      <Link className={css.showBtn} to={`/campers/${camper._id}`}>Show more</Link>
+                    {/* <Link className={css.showBtn} to={`/campers/${camper._id}`}>Show more</Link> */}
+                    <button
+                      type='button'
+                      className={css.showBtn}
+                      onClick={() => {
+                        getCamperCard(camper);
+                        openModal();
+                      }}>
+                      Show more
+                    </button>
                   </div>
               </li>)
           })}</ul>

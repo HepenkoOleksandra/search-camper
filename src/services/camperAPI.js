@@ -4,16 +4,12 @@ const instance = axios.create({
     baseURL: "https://66b5ff07b5ae2d11eb6584fa.mockapi.io",
     headers: {},
     params: {
-      // per_page: 4,
+      limit: 4,
     }
 });
 
 export const apiGetAllCampers = async () => {
-  const {data} = await instance.get("/adverts", {
-    params: {
-      // page,
-    }
-  })
+  const { data } = await instance.get("/adverts");
 // console.log(data.results);
   return data;
 };
